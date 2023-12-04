@@ -1,4 +1,7 @@
-pub mod d1;
+mod d1;
+mod utils;
+
+use crate::utils::file::problem_input;
 fn main() {
-    println!("Number of lines in sample data is: {}", d1::part1());
+    println!("Solution is: {}", d1::part1(problem_input("src/resources/d1_p1.txt")));
 }
