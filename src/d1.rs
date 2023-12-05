@@ -1,6 +1,8 @@
 #![allow(unused_variables)]
 #![allow(dead_code)]
 
+use std::collections::HashMap;
+
 pub fn part1(input: String) -> i32 {
     input.lines().fold(0, |acc, s| {
         acc + get_caliberation_unit(s.as_bytes().to_vec())
@@ -60,8 +62,17 @@ fn test_part2_sample() {
 
 #[test]
 fn random_test() {
-    let strs = "one,two,three,four,five,six,seven,eight,nine".to_string();
+    let numbers_map = HashMap::from([
+        ("one", 1),
+        ("two", 2),
+        ("three", 3),
+        ("four", 4),
+        ("five", 5),
+        ("six", 6),
+        ("seven", 7),
+        ("eight", 8),
+        ("nine", 9),
+    ]);
     let sample = "zoneight234";
     let literal_buffer: String;
-    assert!(strs.contains("two"));
 }
