@@ -1,4 +1,5 @@
 #![allow(unused_variables)]
+#![allow(dead_code)]
 
 pub fn part1(input: String) -> i32 {
     input.lines().fold(0, |acc, s| {
@@ -19,8 +20,8 @@ fn get_caliberation_unit(val: Vec<u8>) -> i32 {
 }
 
 pub fn part2(input: String) -> i32 {
-    let strs = String::from("one,two,three,four,five,six,seven,eight,nine");
-    println!("{}{}", input, strs);
+    let strings = String::from("one,two,three,four,five,six,seven,eight,nine");
+    println!("{}{}", input, strings);
     281
 }
 
@@ -59,6 +60,8 @@ fn test_part2_sample() {
 
 #[test]
 fn random_test() {
-    let strs = String::from("one,two,three,four,five,six,seven,eight,nine");
+    let strs = "one,two,three,four,five,six,seven,eight,nine".to_string();
+    let sample = "zoneight234";
+    let literal_buffer: String;
     assert!(strs.contains("two"));
 }
