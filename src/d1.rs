@@ -1,4 +1,5 @@
 #![allow(unused_variables)]
+#![allow(dead_code)]
 
 use std::collections::HashMap;
 
@@ -20,7 +21,7 @@ fn get_caliberation_unit(val: Vec<u8>) -> i32 {
     unit_as_string.parse().unwrap()
 }
 
-pub fn part2(input: String) -> String {
+pub fn part2(input: String) -> i32 {
     let numbers_map = HashMap::from([
         ("one", "1"),
         ("two", "2"),
@@ -32,20 +33,39 @@ pub fn part2(input: String) -> String {
         ("eight", "8"),
         ("nine", "9"),
     ]);
-    let number_literals = [
-        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-    ];
-    let new_input: String = input
+    input
         .lines()
         .map(|s| {
-            let mut val_with_digits = s.trim().to_string();
-            for k in number_literals {
-                val_with_digits = val_with_digits.replace(k, numbers_map.get(k).unwrap());
+            let mut digits_string = String::with_capacity(s.len());
+            let mut idx: usize = 0;
+            let input_chars = s.as_bytes();
+            while idx < s.len() {
+                let mut matched_str = String::new();
+                for (k, v) in &numbers_map {
+                    if s[idx..].starts_with(k) {
+                        digits_string.push_str(v);
+                        matched_str.push_str(k);
+                        break;
+                    } else if input_chars[idx].is_ascii_digit() {
+                        digits_string.push(input_chars[idx] as char);
+                        break;
+                    }
+                }
+                if !matched_str.is_empty() {
+                    idx += matched_str.len();
+                } else {
+                    idx += 1;
+                }
             }
-            val_with_digits
+            let digits_char = digits_string.as_bytes();
+            println!("{digits_string}");
+            format!(
+                "{}{}",
+                digits_char[0] as char,
+                digits_char[digits_char.len() - 1] as char
+            )
         })
-        .fold(String::new(), |acc, s| format!("{acc}{s}\n"));
-    new_input
+        .fold(0, |acc, s| acc + s.parse::<i32>().unwrap())
 }
 
 fn sample_data_part2() -> String {
@@ -65,7 +85,8 @@ fn test_part2_sample() {
     let result = part2(sample_data_part2());
     assert_eq!(
         result,
-        String::from("219\n8wo3\nabc123xyz\nx2ne34\n49872\nz1ight234\n7pqrst6teen\n"),
+        // String::from("219\n8wo3\nabc123xyz\nx2ne34\n49872\nz1ight234\n7pqrst6teen\n"),
+        281
     );
 }
 
