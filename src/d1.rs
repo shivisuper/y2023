@@ -22,6 +22,18 @@ fn get_caliberation_unit(val: Vec<u8>) -> i32 {
 }
 
 pub fn part2(input: String) -> i32 {
+    input
+        .lines()
+        .map(|s| {
+            // let res = transform_string_to_calib_units(s);
+            // println!("{s} -> {res}");
+            // res
+            transform_string_to_calib_units(s)
+        })
+        .fold(0, |acc, s| acc + s.parse::<i32>().unwrap())
+}
+
+fn transform_string_to_calib_units(input: &str) -> String {
     let numbers_map = HashMap::from([
         ("one", "1"),
         ("two", "2"),
@@ -33,39 +45,34 @@ pub fn part2(input: String) -> i32 {
         ("eight", "8"),
         ("nine", "9"),
     ]);
-    input
-        .lines()
-        .map(|s| {
-            let mut digits_string = String::with_capacity(s.len());
-            let mut idx: usize = 0;
-            let input_chars = s.as_bytes();
-            while idx < s.len() {
-                let mut matched_str = String::new();
-                for (k, v) in &numbers_map {
-                    if s[idx..].starts_with(k) {
-                        digits_string.push_str(v);
-                        matched_str.push_str(k);
-                        break;
-                    } else if input_chars[idx].is_ascii_digit() {
-                        digits_string.push(input_chars[idx] as char);
-                        break;
-                    }
-                }
-                if !matched_str.is_empty() {
-                    idx += matched_str.len();
-                } else {
-                    idx += 1;
-                }
+
+    let mut digits_string = String::with_capacity(input.len());
+    let mut idx: usize = 0;
+    let input_chars = input.as_bytes();
+    while idx < input.len() {
+        let mut matched_str = String::new();
+        for (k, v) in &numbers_map {
+            if input[idx..].starts_with(k) {
+                digits_string.push_str(v);
+                matched_str.push_str(k);
+                break;
+            } else if input_chars[idx].is_ascii_digit() {
+                digits_string.push(input_chars[idx] as char);
+                break;
             }
-            let digits_char = digits_string.as_bytes();
-            println!("{digits_string}");
-            format!(
-                "{}{}",
-                digits_char[0] as char,
-                digits_char[digits_char.len() - 1] as char
-            )
-        })
-        .fold(0, |acc, s| acc + s.parse::<i32>().unwrap())
+        }
+        if !matched_str.is_empty() {
+            idx += matched_str.len() - 1;
+        } else {
+            idx += 1;
+        }
+    }
+    let digits_char = digits_string.as_bytes();
+    format!(
+        "{}{}",
+        digits_char[0] as char,
+        digits_char[digits_char.len() - 1] as char
+    )
 }
 
 fn sample_data_part2() -> String {
@@ -100,7 +107,7 @@ fn sample_data_part1() -> String {
 }
 
 #[test]
-fn test_sample_data() {
+fn test_part1_sample() {
     let result = part1(sample_data_part1());
     assert_eq!(result, 142);
 }
