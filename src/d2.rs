@@ -92,7 +92,17 @@ fn test_part2() -> () {
 }
 
 pub fn part2(input: String) -> i32 {
-    42
+    input
+        .lines()
+        .map(|game_input| {
+            let color_map = extract_color_map(game_input);
+            let mut cube_power = 1;
+            for (_, v) in color_map {
+                cube_power *= v;
+            }
+            cube_power
+        })
+        .fold(0, |acc, s| acc + s)
 }
 
 fn part2_sample() -> String {
