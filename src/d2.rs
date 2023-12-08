@@ -17,14 +17,14 @@ pub fn part1(input: String) -> i32 {
             let game_id = extract_game_id(game_input);
             let color_map = extract_color_map(game_input);
             let mut is_valid_game = true;
-            for (color, max_count) in color_map {
-                if color == "red" && max_count > MAX_RED {
+            for (color, max_count) in &color_map {
+                if *color == "red" && *max_count > MAX_RED {
                     is_valid_game = false;
                     break;
-                } else if color == "blue" && max_count > MAX_BLUE {
+                } else if *color == "green" && *max_count > MAX_GREEN {
                     is_valid_game = false;
                     break;
-                } else if color == "green" && max_count > MAX_GREEN {
+                } else if *color == "blue" && *max_count > MAX_BLUE {
                     is_valid_game = false;
                     break;
                 }
@@ -36,7 +36,7 @@ pub fn part1(input: String) -> i32 {
 }
 
 fn extract_game_id(input: &str) -> &str {
-    let (_, [game_id]) = Regex::new(r"Game (?<game_id>[0-9])")
+    let (_, [game_id]) = Regex::new(r"Game (?<game_id>[0-9]{1,3}):")
         .unwrap()
         .captures(input)
         .unwrap()
@@ -46,7 +46,7 @@ fn extract_game_id(input: &str) -> &str {
 }
 
 fn extract_color_map(input: &str) -> HashMap<&str, i32> {
-    let re = Regex::new(r"(?<count>[0-9])\s(?<color>blue|green|red)").unwrap();
+    let re = Regex::new(r"(?<count>[0-9]{1,2})\s(?<color>blue|green|red)").unwrap();
     let color_vecs: Vec<(&str, i32)> = re
         .captures_iter(input)
         .map(|caps| {
