@@ -1,7 +1,5 @@
 #![allow(unused_variables)]
 
-use crate::utils;
-
 pub fn part1(input: String) -> i32 {
     42
 }
