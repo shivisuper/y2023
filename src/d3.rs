@@ -1,4 +1,5 @@
 #![allow(unused_variables)]
+#![allow(dead_code)]
 
 pub fn part1(input: String) -> i32 {
     42
@@ -27,14 +28,25 @@ fn test_part1() -> () {
 
 #[test]
 fn transpose() {
-    let input: String = String::from("1,2,3,4\n5,6,7,8\n10,11,12,13\n");
-    let expected: String = String::from("1,5,10\n2,6,11\n3,7,12\n4,8,14\n");
-    let mut mat: Vec<Vec<u8>> = vec![];
+    let input = part1_sample();
+    let mut transformed: Vec<Vec<&str>> = vec![];
     input.lines().for_each(|line| {
-        mat.push(line.split(",").map(|s| s.parse::<u8>().unwrap()).collect());
+        transformed.push(line.split('.').collect::<Vec<&str>>());
     });
-    println!("{:?}", mat);
+    show_mat(&transformed);
 }
+
+fn show_mat(mat: &Vec<Vec<&str>>) {
+    let mut idx = 1;
+    for row in mat {
+        idx += 1;
+        for col in row {
+            print!("{} ", *col);
+        }
+        println!();
+    }
+}
+
 pub fn part2(input: String) -> i32 {
     42
 }
