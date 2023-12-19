@@ -27,16 +27,24 @@ fn test_part1() -> () {
 }
 
 #[test]
-fn transpose() {
-    let input = part1_sample();
-    let mut transformed: Vec<Vec<&str>> = vec![];
-    input.lines().for_each(|line| {
-        transformed.push(line.split('.').collect::<Vec<&str>>());
-    });
-    show_mat(&transformed);
+fn parse_input() {
+    let mut processed_input = part1_sample()
+        .lines()
+        .map(|line| {
+            let line_with_empty = format!(".{line}.");
+            line_with_empty.chars().collect::<Vec<char>>()
+        })
+        .collect::<Vec<Vec<char>>>();
+    let empty_row = "."
+        .repeat(processed_input[0].len())
+        .chars()
+        .collect::<Vec<_>>();
+    processed_input.insert(0, empty_row.clone());
+    processed_input.push(empty_row);
+    show_mat(&processed_input);
 }
 
-fn show_mat(mat: &Vec<Vec<&str>>) {
+fn show_mat(mat: &Vec<Vec<char>>) {
     let mut idx = 1;
     for row in mat {
         idx += 1;
