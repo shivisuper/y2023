@@ -21,7 +21,7 @@ fn part1_sample() -> String {
 }
 
 #[test]
-fn test_part1() -> () {
+fn test_part1() {
     let res = part1(part1_sample());
     assert_eq!(4361, res);
 }
